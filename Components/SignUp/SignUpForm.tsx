@@ -1,12 +1,20 @@
 import React from 'react';
 import withForm from '../Common/FormContainer';
 import {StyleSheet, View} from 'react-native';
-import {TextInput, Text, Button} from 'react-native-paper';
+import {TextInput, Text, Button, useTheme} from 'react-native-paper';
 import {SIGNUP_FIELD_NAME} from './Constants';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useNavigation} from '@react-navigation/native';
 
 const SignUpForm = ({formik}) => {
+  const theme = useTheme();
+  const errorText = {color: theme.colors.error};
+  const navigation = useNavigation();
+
+  const handleLogin = () => {
+    navigation.navigate('Login');
+  };
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView contentContainerStyle={styles.scrollView}>
@@ -27,7 +35,7 @@ const SignUpForm = ({formik}) => {
           autoFocus
           inputMode="email"
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.email] &&
           formik.errors[SIGNUP_FIELD_NAME.email]
             ? formik.errors[SIGNUP_FIELD_NAME.email]
@@ -48,7 +56,7 @@ const SignUpForm = ({formik}) => {
           textContentType="password"
           secureTextEntry={true}
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.password] &&
           formik.errors[SIGNUP_FIELD_NAME.password]
             ? formik.errors[SIGNUP_FIELD_NAME.password]
@@ -69,7 +77,7 @@ const SignUpForm = ({formik}) => {
           textContentType="password"
           secureTextEntry={true}
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.confirmPassword] &&
           formik.errors[SIGNUP_FIELD_NAME.confirmPassword]
             ? formik.errors[SIGNUP_FIELD_NAME.confirmPassword]
@@ -88,7 +96,7 @@ const SignUpForm = ({formik}) => {
           }
           label={'First Name'}
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.firstName] &&
           formik.errors[SIGNUP_FIELD_NAME.firstName]
             ? formik.errors[SIGNUP_FIELD_NAME.firstName]
@@ -107,7 +115,7 @@ const SignUpForm = ({formik}) => {
           }
           label={'Last Name'}
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.lastName] &&
           formik.errors[SIGNUP_FIELD_NAME.lastName]
             ? formik.errors[SIGNUP_FIELD_NAME.lastName]
@@ -127,7 +135,7 @@ const SignUpForm = ({formik}) => {
           label={'Contact Number'}
           textContentType="telephoneNumber"
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.contactNumber] &&
           formik.errors[SIGNUP_FIELD_NAME.contactNumber]
             ? formik.errors[SIGNUP_FIELD_NAME.contactNumber]
@@ -148,7 +156,7 @@ const SignUpForm = ({formik}) => {
           multiline
           numberOfLines={3}
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.address] &&
           formik.errors[SIGNUP_FIELD_NAME.address]
             ? formik.errors[SIGNUP_FIELD_NAME.address]
@@ -167,7 +175,7 @@ const SignUpForm = ({formik}) => {
           }
           label={'Aadhar Id'}
         />
-        <Text style={styles.errorText}>
+        <Text style={errorText}>
           {formik.touched[SIGNUP_FIELD_NAME.aadharId] &&
           formik.errors[SIGNUP_FIELD_NAME.aadharId]
             ? formik.errors[SIGNUP_FIELD_NAME.aadharId]
@@ -175,6 +183,7 @@ const SignUpForm = ({formik}) => {
         </Text>
 
         <Button onPress={formik.submitForm}>Sign Up</Button>
+        <Button onPress={handleLogin}>Login</Button>
         {/* </ScrollView> */}
       </KeyboardAwareScrollView>
     </View>
@@ -197,10 +206,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
     paddingHorizontal: RFValue(10),
-    paddingTop: RFValue(20),
-  },
-  errorText: {
-    color: 'red',
+    paddingVertical: RFValue(20),
+    rowGap: RFValue(10),
   },
   heading: {
     textAlign: 'center',
