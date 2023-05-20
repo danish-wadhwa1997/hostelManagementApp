@@ -1,7 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import SignUpForm from './SignUpForm';
 import {SIGNUP_FIELD_NAME} from './Constants';
 import * as Yup from 'yup';
+import {signUpUser} from '../Services/signUpServices';
+import {TokenContext} from '../Context/TokenContext';
+
+type SubmitFormValue = {
+  aadharId: string;
+  address: string;
+  confirmPassword: string;
+  contactNumber: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
 const initialValues = {
   [SIGNUP_FIELD_NAME.email]: '',
   [SIGNUP_FIELD_NAME.password]: '',
@@ -12,13 +25,10 @@ const initialValues = {
   [SIGNUP_FIELD_NAME.address]: '',
   [SIGNUP_FIELD_NAME.aadharId]: '',
 };
-const handleSubmit = values => {
-  console.log('sign up', values);
-};
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-const aadharRegex = '^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$';
+const aadharRegex = /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
 const passwordRegex =
   /^\S*(?=\S{8,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/;
 
@@ -52,6 +62,23 @@ const validationSchema = Yup.object({
 });
 
 const SignUp = () => {
+  const {setToken} = useContext(TokenContext);
+
+  console.log('called');
+  const handleSubmit = async (values: SubmitFormValue) => {
+    console.log('sign up', values);
+    const newValues = {...values, role: 'guest'};
+    delete newValues.confirmPassword;
+    try {
+      const {
+        data: {token, user},
+      } = await signUpUser(newValues);
+      setToken(token);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <SignUpForm
       onSubmit={handleSubmit}

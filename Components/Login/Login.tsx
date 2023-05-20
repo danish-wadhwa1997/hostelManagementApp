@@ -1,15 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import * as Yup from 'yup';
 import {LOGIN_FIELD_NAME} from './Constants';
 import LoginForm from './LoginForm';
+import {loginUser} from '../Services/loginService';
+import {TokenContext} from '../Context/TokenContext';
 
 const initialValue = {
   [LOGIN_FIELD_NAME.email]: '',
   [LOGIN_FIELD_NAME.password]: '',
-};
-
-const handleSubmit = values => {
-  console.log('values', values);
 };
 
 const validationSchema = Yup.object({
@@ -20,6 +18,22 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+  const {setToken} = useContext(TokenContext);
+
+  const handleSubmit = async values => {
+    try {
+      const {
+        data: {token, user},
+      } = await loginUser(
+        values[LOGIN_FIELD_NAME.email],
+        values[LOGIN_FIELD_NAME.password],
+      );
+      setToken(token);
+    } catch (error) {
+      console.error(JSON.stringify(error));
+    }
+  };
+
   return (
     <LoginForm
       validationSchema={validationSchema}
