@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState, useContext} from 'react';
-import {retriveToken, saveToken} from '../Services/tokenServices';
+import {retriveToken, saveToken, verifyToken} from '../Services/tokenServices';
 import {AuthContext} from './AuthContext';
 export const TokenContext = createContext({});
 
@@ -16,14 +16,28 @@ export const TokenProvider = ({children}: Props) => {
       const getToken = async () => {
         const value = await retriveToken();
         if (value) {
-          _setToken(value);
+          // verify token
+          console.log('called');
+          verifyToken()
+            .then(res => {
+              _setToken(value);
+              setUserAuthorized(true);
+            })
+            .catch(err => {
+              console.error(err);
+              _setToken(null);
+              setUserAuthorized(false);
+            });
         } else {
           _setToken(null);
+          setUserAuthorized(false);
         }
       };
       getToken();
     } catch (error) {
       console.error(error);
+      _setToken(null);
+      setUserAuthorized(false);
     }
   }, []);
 
