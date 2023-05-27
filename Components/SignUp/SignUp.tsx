@@ -64,9 +64,7 @@ const validationSchema = Yup.object({
 const SignUp = () => {
   const {setToken} = useContext(TokenContext);
 
-  console.log('called');
   const handleSubmit = async (values: SubmitFormValue) => {
-    console.log('sign up', values);
     const newValues = {...values, role: 'guest'};
     delete newValues.confirmPassword;
     try {

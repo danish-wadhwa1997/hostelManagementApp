@@ -53,7 +53,7 @@ instance.interceptors.request.use(
           }
         })
         .catch(error => {
-          console.log(
+          console.error(
             '=====something went wrong in fething the tokens from local storage======',
           );
         });
