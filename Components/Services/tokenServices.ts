@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Axios from './Axios';
 
 const TOKEN = 'token';
 
@@ -21,4 +22,8 @@ export const retriveToken = async () => {
     console.log('=====error in fetching from local storage======');
     return null;
   }
+};
+
+export const verifyToken = () => {
+  return Axios.request('GET', '/api/verify-token');
 };
