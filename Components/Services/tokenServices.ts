@@ -27,3 +27,13 @@ export const retriveToken = async () => {
 export const verifyToken = () => {
   return Axios.request('GET', '/api/verify-token');
 };
+
+export const removeToken = async () => {
+  try {
+    await AsyncStorage.removeItem(TOKEN);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
