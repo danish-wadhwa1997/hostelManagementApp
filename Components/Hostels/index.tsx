@@ -1,5 +1,5 @@
 import {StyleSheet, SafeAreaView, FlatList, View} from 'react-native';
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState} from 'react';
 import {getAllHostels} from '../Services/hostelServices';
 import {RFValue} from 'react-native-responsive-fontsize';
 import HostelCard from './HostelCard';
@@ -18,10 +18,14 @@ export type HostelType = {
   name: string;
 };
 let allHostels: Array<HostelType>;
-
+const SORTS = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};
 const HostelsContainer = () => {
   const [hostels, setHostels] = useState<Array<HostelType>>();
   const [searchQuery, setSearchQuery] = useState<string>();
+  const [sort, setSort] = useState<string>();
 
   const filterHostelsBySearch = (value: string) => {
     if (value) {
@@ -53,6 +57,39 @@ const HostelsContainer = () => {
   useEffect(() => {
     getAllBuildings();
   }, []);
+
+  const sortList = () => {
+    if (hostels && hostels.length > 1) {
+      const newHostel: Array<HostelType> = [...hostels];
+      if (sort === SORTS.ASC) {
+        setSort(SORTS.DESC);
+        setHostels(
+          newHostel.sort((a, b) => {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+              return 1;
+            } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+              return -1;
+            } else {
+              return 0;
+            }
+          }),
+        );
+      } else {
+        setSort(SORTS.ASC);
+        setHostels(
+          newHostel.sort((a, b) => {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+              return -1;
+            } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }),
+        );
+      }
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filtersContainer}>
@@ -65,10 +102,11 @@ const HostelsContainer = () => {
           style={styles.searchStyle}
         />
         <IconButton
-          icon="tune"
+          // tune
+          icon="sort"
           style={styles.filterIcon}
           size={RFValue(25)}
-          onPress={() => console.log('Pressed')}
+          onPress={sortList}
         />
       </View>
       <FlatList
