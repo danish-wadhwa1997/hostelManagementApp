@@ -1,11 +1,11 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Hostels from '../Hostels/index';
-import Profile from '../Profile/Profile';
 import Hostel from '../Hostels/Hostel';
 import RoomsContainer from '../Room/RoomsContainer';
 import Room from '../Room/Room';
 import {IconButton, useTheme} from 'react-native-paper';
+import ProfileStack from './ProfileStack';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +16,10 @@ const AppStack = () => {
       initialRouteName="Hostels"
       screenOptions={({navigation}) => ({
         // eslint-disable-next-line react/no-unstable-nested-components
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+        headerTintColor: theme.colors.onPrimary,
         headerRight: () => (
           <IconButton
             icon="account-outline"
@@ -41,7 +45,7 @@ const AppStack = () => {
         component={Room}
         initialParams={{hostelId: '', roomNumber: ''}}
       />
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Profile" component={ProfileStack} />
     </Stack.Navigator>
   );
 };
