@@ -8,6 +8,7 @@ const instance = axios.create({
   // 'Content-Type': 'application/json',
 });
 
+console.log(BACKEND_BASE_URL);
 const base = async param => {
   return await instance({
     method: param.method,
@@ -33,6 +34,7 @@ const request = async (method: string, url: string) => {
 };
 
 const requestData = async (method: string, url: string, data: object) => {
+  console.log(BACKEND_BASE_URL);
   return await base({method, url, data})
     .then(res => Promise.resolve(res))
     .catch(err => Promise.reject(err));

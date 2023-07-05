@@ -47,11 +47,11 @@ const RoomsContainer = () => {
           <Text variant="headlineLarge">No Rooms available</Text>
         }
       />
-      <FAB
+      {/* <FAB
         icon="filter"
         style={styles.fab}
         onPress={() => console.log('Pressed')}
-      />
+      /> */}
     </SafeAreaView>
   );
 };

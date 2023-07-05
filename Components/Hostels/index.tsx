@@ -6,17 +6,15 @@ import HostelCard from './HostelCard';
 import {IconButton, TextInput} from 'react-native-paper';
 
 export type HostelType = {
-  address: string;
-  adminId: string;
-  'date-created': string;
-  'date-modified': string;
-  description: string;
+  harea: string;
+  hcity: string;
+  hname: string;
+  hphone: string;
   id: string;
-  rating: string;
-  reviews: Array<string>;
-  rules: Array<string>;
-  name: string;
+  image: string;
+  refid: string;
 };
+
 let allHostels: Array<HostelType>;
 const SORTS = {
   ASC: 'ASC',
@@ -30,7 +28,7 @@ const HostelsContainer = () => {
   const filterHostelsBySearch = (value: string) => {
     if (value) {
       return allHostels.filter((hostel: HostelType) =>
-        hostel.name.toLowerCase().includes(value?.toLowerCase()),
+        hostel.hname.toLowerCase().includes(value?.toLowerCase()),
       );
     } else {
       return allHostels;
@@ -45,9 +43,10 @@ const HostelsContainer = () => {
   const getAllBuildings = async () => {
     try {
       const response = await getAllHostels();
-      if (response?.data?.buildings) {
-        allHostels = response.data.buildings;
-        setHostels(response.data.buildings);
+      console.log(response);
+      if (response?.data) {
+        allHostels = response.data;
+        setHostels(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -65,9 +64,9 @@ const HostelsContainer = () => {
         setSort(SORTS.DESC);
         setHostels(
           newHostel.sort((a, b) => {
-            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            if (a.hname.toLowerCase() < b.hname.toLowerCase()) {
               return 1;
-            } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            } else if (a.hname.toLowerCase() > b.hname.toLowerCase()) {
               return -1;
             } else {
               return 0;
@@ -78,9 +77,9 @@ const HostelsContainer = () => {
         setSort(SORTS.ASC);
         setHostels(
           newHostel.sort((a, b) => {
-            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            if (a.hname.toLowerCase() < b.hname.toLowerCase()) {
               return -1;
-            } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            } else if (a.hname.toLowerCase() > b.hname.toLowerCase()) {
               return 1;
             } else {
               return 0;

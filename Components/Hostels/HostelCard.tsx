@@ -4,18 +4,18 @@ import React from 'react';
 import {HostelType} from './index';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {useNavigation} from '@react-navigation/native';
+import {BACKEND_BASE_URL} from '@env';
 
 type Props = {hostel: HostelType};
 
 const HostelCard = ({hostel}: Props) => {
   const navigation = useNavigation();
 
-  const handleClick = () => {
-    navigation.navigate('Rooms', {hostelId: hostel.id});
-  };
-
   const handleViewHostelDetails = () => {
-    navigation.navigate('Hostel', {hostelId: hostel.id});
+    navigation.navigate('AppStack', {
+      screen: 'Hostel',
+      params: {hostel: hostel},
+    });
   };
 
   return (
@@ -23,23 +23,18 @@ const HostelCard = ({hostel}: Props) => {
       <TouchableRipple onPress={handleViewHostelDetails}>
         <View style={styles.container}>
           <Image
-            source={{uri: 'https://picsum.photos/700'}}
+            source={{
+              uri: `${BACKEND_BASE_URL}${hostel.image}`,
+            }}
             style={styles.image}
           />
           <View style={styles.detailsContainer}>
             <View>
-              <Text style={styles.title}>{hostel.name}</Text>
-              <Text style={styles.description}>{hostel.address}</Text>
+              <Text style={styles.title}>{hostel.hname}</Text>
+              <Text style={styles.description}>{hostel.harea}</Text>
             </View>
             <View style={styles.buttonRatingContainer}>
-              <Text style={styles.rating}>{hostel.rating} / 5</Text>
-              <Button
-                icon="arrow-right"
-                mode="text"
-                contentStyle={styles.btnContentStyle}
-                onPress={handleClick}>
-                Rooms
-              </Button>
+              <Text variant="labelMedium">{hostel.hcity}</Text>
             </View>
           </View>
         </View>
@@ -73,7 +68,7 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(5),
   },
   description: {
-    fontSize: RFValue(14),
+    fontSize: RFValue(12),
     // color: ,
   },
   rating: {
@@ -82,7 +77,7 @@ const styles = StyleSheet.create({
   },
   buttonRatingContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'flex-end',
     alignItems: 'center',
     columnGap: RFValue(10),
   },

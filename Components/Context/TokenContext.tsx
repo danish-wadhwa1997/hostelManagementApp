@@ -9,7 +9,7 @@ type Props = {
 
 export const TokenProvider = ({children}: Props) => {
   const [token, _setToken] = useState<string | null>(null);
-  const {setUserAuthorized} = useContext(AuthContext);
+  const {setUserAuthorized, setUser} = useContext(AuthContext);
 
   useEffect(() => {
     try {
@@ -17,17 +17,18 @@ export const TokenProvider = ({children}: Props) => {
         const value = await retriveToken();
         if (value) {
           // verify token
-          console.log('called');
-          verifyToken()
-            .then(res => {
-              _setToken(value);
-              setUserAuthorized(true);
-            })
-            .catch(err => {
-              console.error(err);
-              _setToken(null);
-              setUserAuthorized(false);
-            });
+          // verifyToken()
+          //   .then(res => {
+          //     _setToken(value);
+          //     setUserAuthorized(true);
+          //   })
+          //   .catch(err => {
+          //     console.error(err);
+          //     _setToken(null);
+          //     setUserAuthorized(false);
+          //   });
+          setUser(JSON.parse(value));
+          setUserAuthorized(true);
         } else {
           _setToken(null);
           setUserAuthorized(false);
@@ -46,7 +47,6 @@ export const TokenProvider = ({children}: Props) => {
     setUserAuthorized(true);
     await saveToken(value);
   };
-
   return (
     <TokenContext.Provider value={{token, setToken}}>
       {children}

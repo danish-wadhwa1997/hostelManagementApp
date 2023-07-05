@@ -1,16 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import AuthStack from './AuthStack';
 import {useTheme} from 'react-native-paper';
-import {AuthContext} from '../Context/AuthContext';
-import AppStack from './AppStack';
+import BottomTabs from './TabNavigation';
 
 const MainNavigation = () => {
   const theme = useTheme();
-  const {userAuthorized} = useContext(AuthContext);
   return (
     <NavigationContainer theme={theme}>
-      {userAuthorized ? <AppStack /> : <AuthStack />}
+      <BottomTabs />
     </NavigationContainer>
   );
 };

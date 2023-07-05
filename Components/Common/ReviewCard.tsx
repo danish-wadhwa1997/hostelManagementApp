@@ -7,13 +7,13 @@ const ReviewCard = ({review}) => {
   return (
     <View style={styles.container}>
       <Surface elevation={2} style={styles.surface}>
-        <Text variant="headlineLarge" style={styles.reviewText}>
-          "{review}"
+        <Text variant="bodyLarge" style={styles.reviewText}>
+          "{review.review}"
         </Text>
         <Text
           variant="labelLarge"
           style={{...styles.reviewText, ...styles.authorText}}>
-          - Danish Wadhwa
+          - {review.author}
         </Text>
       </Surface>
     </View>
@@ -24,7 +24,11 @@ export default ReviewCard;
 
 const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
-  container: {padding: RFValue(15), width, paddingVertical: RFValue(10)},
+  container: {
+    padding: RFValue(15),
+    width: width - 30,
+    paddingVertical: RFValue(10),
+  },
   surface: {
     padding: RFValue(20),
     borderRadius: RFValue(8),
