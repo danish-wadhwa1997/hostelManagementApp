@@ -1,5 +1,5 @@
 import {FlatList, Image, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import IconButtonList from '../Common/IconButtonList';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -17,6 +17,9 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImageCarousel from '../Common/ImageCarousel';
 import ReviewCard from '../Common/ReviewCard';
+import {getHostelDetails} from '../Services/hostelServices';
+import {BACKEND_BASE_URL} from '@env';
+
 const TABS_VALUES = {
   RULES: 'rules',
   REVIEWS: 'reviews',
@@ -78,20 +81,47 @@ const RULES = [
 ];
 
 const Hostel = ({navigation}) => {
-  const {hostel} = useRoute().params;
+  const {hostelName} = useRoute().params;
   const [selectedTab, setTab] = useState(TABS[0].value);
   const theme = useTheme();
-
+  const [images, setImages] = useState<Array<string>>([]);
+  const [hostel, setHostel] = useState();
   const handleBookRoom = () => {
-    navigation.navigate('BookRoom', {hostel: hostel.hname});
+    navigation.navigate('BookRoom', {hostel: hostel?.hname});
   };
+
+  console.log(hostel);
+  const getDetails = async () => {
+    try {
+      const response = await getHostelDetails(hostelName);
+      // console.log(response.data);
+      let imageArray = [];
+      let hostelDetails;
+      if (response?.data) {
+        imageArray = response.data[0]
+          .filter(item => item.image)
+          .map(item => `${BACKEND_BASE_URL}${item.image}`);
+        hostelDetails = response.data[1][0];
+        setImages(imageArray);
+        setHostel(hostelDetails);
+      }
+    } catch (error) {
+      console.error(error);
+      setImages([]);
+      setHostel({});
+    }
+  };
+
+  useEffect(() => {
+    getDetails();
+  }, []);
 
   const getTabContent = (value: string) => {
     switch (value) {
       case TABS_VALUES.ADDRESS:
         return (
           <View style={{rowGap: RFValue(10), marginBottom: RFValue(8)}}>
-            <Text variant="bodyLarge">{`${hostel.harea}, ${hostel.hcity}`}</Text>
+            <Text variant="bodyLarge">{`${hostel?.harea}, ${hostel?.hcity}`}</Text>
             <Image
               source={require('../../assets/map.jpg')}
               style={{
@@ -146,33 +176,22 @@ const Hostel = ({navigation}) => {
         );
     }
   };
-
+  console.log(images);
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView contentContainerStyle={styles.scrollView}>
-        <ImageCarousel
-          images={[
-            'https://en-media.thebetterindia.com/uploads/2017/04/stops-hostel-varanasi-86-600x400.jpg',
-            'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fim.whatshot.in%2Fimg%2F2020%2FJun%2Fimage-7-1591858907.jpg&f=1&nofb=1&ipt=b813f0a140f2870dee50d6ed45277956c7a1f826d6f4e01ce22613e5c1cd4183&ipo=images',
-            'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Faspiringbackpacker.com%2Fwp-content%2Fuploads%2F2012%2F02%2FHostel-Australia-300x201.jpg&f=1&nofb=1&ipt=c4d059aa63d9ab30f5740f0ff6009678d669c2ac7ba4eb4d979b4cfd16155345&ipo=images',
-          ]}
-        />
+        <ImageCarousel images={images} />
 
         <View style={styles.detailsContainer}>
           <View style={{paddingHorizontal: RFValue(16)}}>
             <Card>
               <Card.Title
-                title={hostel.hname}
-                subtitle={`Contact no. ${hostel.hphone}`}
+                title={hostel?.hname}
+                subtitle={`Contact no. ${hostel?.hphone}`}
                 left={props => <Avatar.Icon {...props} icon="home" />}
               />
               <Card.Content>
-                <Paragraph>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </Paragraph>
+                <Paragraph numberOfLines={10}>{hostel?.hdesc}</Paragraph>
               </Card.Content>
             </Card>
 
@@ -207,7 +226,6 @@ const Hostel = ({navigation}) => {
               {getTabContent(selectedTab)}
             </View>
 
-            {/* meal type list */}
             <View style={styles.mealListContainer}>
               <IconButtonList
                 list={MEAL_TYPES}

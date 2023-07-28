@@ -14,6 +14,7 @@ import {AuthContext} from '../Context/AuthContext';
 import UnAuthStack from './AuthStack';
 import AppStack from './AppStack';
 import BookingRequest from '../BookingRequest/BookingRequest';
+import Meals from '../Meals/Meals';
 
 const Tab = createBottomTabNavigator();
 const ICON_SIZE = RFValue(24);
@@ -40,6 +41,20 @@ const BottomTabs = () => {
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons
               name="magnify"
+              color={color}
+              size={ICON_SIZE}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Meals"
+        component={Meals}
+        options={{
+          tabBarAccessibilityLabel: 'Meals',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="food"
               color={color}
               size={ICON_SIZE}
             />
@@ -84,10 +99,17 @@ const BottomTabs = () => {
             component={ProfileStack}
             options={{
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              tabBarButton: props => null,
+              // tabBarButton: props => null,
               unmountOnBlur: true,
               tabBarStyle: {display: 'none'},
               header: props => null,
+              tabBarIcon: ({color}) => (
+                <MaterialCommunityIcons
+                  name="account-outline"
+                  color={color}
+                  size={ICON_SIZE}
+                />
+              ),
             }}
           />
         </>
@@ -97,10 +119,17 @@ const BottomTabs = () => {
           component={UnAuthStack}
           options={{
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            tabBarButton: props => null,
+            // tabBarButton: props => null,
             unmountOnBlur: true,
             tabBarStyle: {display: 'none'},
             header: props => null,
+            tabBarIcon: ({color}) => (
+              <MaterialCommunityIcons
+                name="login"
+                color={color}
+                size={ICON_SIZE}
+              />
+            ),
           }}
         />
       )}

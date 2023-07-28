@@ -16,7 +16,7 @@ const AppStack = () => {
       <Stack.Screen
         name="Hostel"
         component={Hostel}
-        initialParams={{hostel: {}}}
+        initialParams={{hostelName: ''}}
       />
       <Stack.Screen
         name="Rooms"

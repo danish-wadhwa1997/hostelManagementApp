@@ -14,7 +14,7 @@ const HostelCard = ({hostel}: Props) => {
   const handleViewHostelDetails = () => {
     navigation.navigate('AppStack', {
       screen: 'Hostel',
-      params: {hostel: hostel},
+      params: {hostelName: hostel.hname},
     });
   };
 

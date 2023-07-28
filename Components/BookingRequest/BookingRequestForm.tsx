@@ -26,81 +26,87 @@ const BookingRequestForm = ({formik}: BookingRequestProps) => {
   };
 
   return (
-    <ImageBackground source={require('../../assets/background/stacked.png')}>
-      <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <Text
-            variant="headlineLarge"
-            style={{...styles.heading, color: theme.colors.inversePrimary}}>
-            Request Room Booking
-          </Text>
-          {/* ========================================================= */}
+    // <ImageBackground source={require('../../assets/background/stacked.png')}>
+    <View style={{...styles.container, backgroundColor: theme.colors.primary}}>
+      <View style={styles.formContainer}>
+        <Text
+          variant="headlineLarge"
+          style={{...styles.heading, color: theme.colors.inversePrimary}}>
+          Request Room Booking
+        </Text>
+        {/* ========================================================= */}
 
-          <TextInput
-            value={formik.values[FIELDNAMES.name]}
-            onChangeText={formik.handleChange(FIELDNAMES.name)}
-            onBlur={formik.handleBlur(FIELDNAMES.name)}
-            error={
-              formik.touched[FIELDNAMES.name] && formik.errors[FIELDNAMES.name]
-            }
-            label={'Name'}
-            autoFocus
-          />
-          <Text style={{color: theme.colors.error}}>
-            {formik.touched[FIELDNAMES.name] && formik.errors[FIELDNAMES.name]
-              ? formik.errors[FIELDNAMES.name]
-              : ''}
-          </Text>
-          {/* ========================================================= */}
-          <TextInput
-            value={formik.values[FIELDNAMES.phone]}
-            onChangeText={formik.handleChange(FIELDNAMES.phone)}
-            onBlur={formik.handleBlur(FIELDNAMES.phone)}
-            error={
-              formik.touched[FIELDNAMES.phone] &&
-              formik.errors[FIELDNAMES.phone]
-            }
-            label={'Phone'}
-            autoFocus
-          />
-          <Text style={{color: theme.colors.error}}>
-            {formik.touched[FIELDNAMES.phone] && formik.errors[FIELDNAMES.phone]
-              ? formik.errors[FIELDNAMES.phone]
-              : ''}
-          </Text>
+        <TextInput
+          mode="outlined"
+          value={formik.values[FIELDNAMES.name]}
+          onChangeText={formik.handleChange(FIELDNAMES.name)}
+          onBlur={formik.handleBlur(FIELDNAMES.name)}
+          error={
+            formik.touched[FIELDNAMES.name] && formik.errors[FIELDNAMES.name]
+          }
+          placeholder={'Name'}
+          autoFocus
+        />
+        <Text style={{color: theme.colors.error}}>
+          {formik.touched[FIELDNAMES.name] && formik.errors[FIELDNAMES.name]
+            ? formik.errors[FIELDNAMES.name]
+            : ''}
+        </Text>
+        {/* ========================================================= */}
+        <TextInput
+          mode="outlined"
+          value={formik.values[FIELDNAMES.phone]}
+          onChangeText={formik.handleChange(FIELDNAMES.phone)}
+          onBlur={formik.handleBlur(FIELDNAMES.phone)}
+          error={
+            formik.touched[FIELDNAMES.phone] && formik.errors[FIELDNAMES.phone]
+          }
+          placeholder={'Phone'}
+          autoFocus
+        />
+        <Text style={{color: theme.colors.error}}>
+          {formik.touched[FIELDNAMES.phone] && formik.errors[FIELDNAMES.phone]
+            ? formik.errors[FIELDNAMES.phone]
+            : ''}
+        </Text>
 
-          {/* ========================================================= */}
+        {/* ========================================================= */}
 
-          <TextInput
-            value={formik.values[FIELDNAMES.message]}
-            onChangeText={formik.handleChange(FIELDNAMES.message)}
-            onBlur={formik.handleBlur(FIELDNAMES.message)}
-            numberOfLines={4}
-            error={
-              formik.touched[FIELDNAMES.message] &&
-              formik.errors[FIELDNAMES.message]
-            }
-            label={'Message'}
-            autoFocus
-          />
-          <Text style={{color: theme.colors.error}}>
-            {formik.touched[FIELDNAMES.message] &&
+        <TextInput
+          mode="outlined"
+          value={formik.values[FIELDNAMES.message]}
+          onChangeText={formik.handleChange(FIELDNAMES.message)}
+          onBlur={formik.handleBlur(FIELDNAMES.message)}
+          numberOfLines={4}
+          error={
+            formik.touched[FIELDNAMES.message] &&
             formik.errors[FIELDNAMES.message]
-              ? formik.errors[FIELDNAMES.message]
-              : ''}
-          </Text>
+          }
+          placeholder={'Message'}
+          autoFocus
+        />
+        <Text style={{color: theme.colors.error}}>
+          {formik.touched[FIELDNAMES.message] &&
+          formik.errors[FIELDNAMES.message]
+            ? formik.errors[FIELDNAMES.message]
+            : ''}
+        </Text>
 
-          <Button onPress={formik.submitForm} mode="contained-tonal">
-            Submit Request
-          </Button>
-          <Button
-            onPress={handleCancel}
-            labelStyle={{color: theme.colors.inversePrimary}}>
-            Cancel
-          </Button>
-        </View>
+        <Button
+          onPress={formik.submitForm}
+          mode="contained"
+          style={{backgroundColor: theme.colors.inversePrimary}}
+          labelStyle={{color: theme.colors.primary}}>
+          Submit Request
+        </Button>
+        <Button
+          onPress={handleCancel}
+          labelStyle={{color: theme.colors.inversePrimary}}>
+          Cancel
+        </Button>
       </View>
-    </ImageBackground>
+    </View>
+    // </ImageBackground>
   );
 };
 
@@ -120,6 +126,7 @@ const styles = StyleSheet.create({
   heading: {
     textAlign: 'center',
     marginBottom: RFValue(20),
+    fontWeight: '600',
   },
 });
 

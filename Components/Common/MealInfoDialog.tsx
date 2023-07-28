@@ -16,7 +16,10 @@ const MealInfoDialog = ({show, onClose}: Props) => {
         <Dialog.Title>Meal Info</Dialog.Title>
         <Dialog.Content>
           <ScrollView contentContainerStyle={{paddingHorizontal: RFValue(16)}}>
-            <Text>This is a scrollable area</Text>
+            <Text>
+              We provide different varieties of meal which includes veg & non
+              veg. You can see the meals for the week in meals tab.
+            </Text>
           </ScrollView>
         </Dialog.Content>
         <Dialog.Actions>

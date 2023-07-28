@@ -1,11 +1,10 @@
 import React from 'react';
 import {TextInput, Button, useTheme, Text} from 'react-native-paper';
-import {View, StyleSheet, ImageBackground} from 'react-native';
+import {View, StyleSheet, Image, ImageBackground} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {LOGIN_FIELD_NAME} from './Constants';
 import {FormikProps} from 'formik';
 import withForm from '../Common/FormContainer';
-import {useNavigation} from '@react-navigation/native';
 
 type LoginFormValues = {
   [LOGIN_FIELD_NAME.email]: string;
@@ -18,23 +17,26 @@ type LoginProps = {
 
 const LoginForm = ({formik}: LoginProps) => {
   const theme = useTheme();
-  const navigation = useNavigation();
-
-  const handleSignUp = () => {
-    navigation.navigate('SignUp');
-  };
 
   return (
-    <ImageBackground source={require('../../assets/background/stacked.png')}>
-      <View style={styles.container}>
+    <ImageBackground source={require('../../assets/logo-bg.png')}>
+      <View style={{...styles.container}}>
         <View style={styles.formContainer}>
-          <Text
-            variant="headlineLarge"
-            style={{...styles.heading, color: theme.colors.inversePrimary}}>
-            Login
-          </Text>
-
+          {/* <Text
+          variant="headlineLarge"
+          style={{...styles.heading, color: theme.colors.inversePrimary}}>
+          Login
+        </Text> */}
+          {/* <Image
+            source={require('../../assets/logo.png')}
+            style={{
+              width: RFValue(100),
+              height: RFValue(100),
+              alignSelf: 'center',
+            }}
+          /> */}
           <TextInput
+            mode="outlined"
             value={formik.values[LOGIN_FIELD_NAME.email]}
             onChangeText={formik.handleChange(LOGIN_FIELD_NAME.email)}
             onBlur={formik.handleBlur(LOGIN_FIELD_NAME.email)}
@@ -42,9 +44,12 @@ const LoginForm = ({formik}: LoginProps) => {
               formik.touched[LOGIN_FIELD_NAME.email] &&
               formik.errors[LOGIN_FIELD_NAME.email]
             }
-            label={'Email'}
+            // label={'Email'}
+            placeholder="Email"
             autoFocus
             inputMode="email"
+            // style={{backgroundColor: 'transparent'}}
+            // activeUnderlineColor={theme.colors.inversePrimary}
           />
           <Text style={{color: theme.colors.error}}>
             {formik.touched[LOGIN_FIELD_NAME.email] &&
@@ -53,6 +58,7 @@ const LoginForm = ({formik}: LoginProps) => {
               : ''}
           </Text>
           <TextInput
+            mode="outlined"
             value={formik.values[LOGIN_FIELD_NAME.password]}
             onChangeText={formik.handleChange(LOGIN_FIELD_NAME.password)}
             onBlur={formik.handleBlur(LOGIN_FIELD_NAME.password)}
@@ -60,9 +66,12 @@ const LoginForm = ({formik}: LoginProps) => {
               formik.touched[LOGIN_FIELD_NAME.password] &&
               formik.errors[LOGIN_FIELD_NAME.password]
             }
-            label={'Password'}
+            // label={'Password'}
+            placeholder="Password"
             textContentType="password"
             secureTextEntry={true}
+            // style={{backgroundColor: 'transparent'}}
+            // activeUnderlineColor={theme.colors.inversePrimary}
           />
           <Text style={{color: theme.colors.error}}>
             {formik.touched[LOGIN_FIELD_NAME.password] &&
@@ -71,12 +80,7 @@ const LoginForm = ({formik}: LoginProps) => {
               : ''}
           </Text>
           <Button onPress={formik.submitForm} mode="contained-tonal">
-            log in
-          </Button>
-          <Button
-            onPress={handleSignUp}
-            labelStyle={{color: theme.colors.inversePrimary}}>
-            Sign Up
+            LOG IN
           </Button>
         </View>
       </View>
@@ -96,6 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: RFValue(10),
     display: 'flex',
     rowGap: RFValue(10),
+    marginTop: RFValue(200),
   },
   heading: {
     textAlign: 'center',
